@@ -16,7 +16,7 @@ export default function QRCodeCard() {
     <div className="bg-white p-4 rounded-xl">
       <h2>QR Code</h2>
 
-      <QRCode value="http://localhost:3000" size={180} />
+      <QRCode value="192.168.100.22:3000" size={180} />
     </div>
   );
 }
