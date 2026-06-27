@@ -48,7 +48,7 @@ export default function LoginPage() {
 
       <div className="bg-white rounded-xl shadow-xl w-[420px] p-8">
 
-        <h1 className="text-3xl font-bold mb-8 text-center">
+        <h1 className="text-black text-3xl font-bold mb-8 text-center">
 
           Admin Login
 
@@ -56,7 +56,7 @@ export default function LoginPage() {
 
         <input
 
-          className="border w-full mb-4 p-3 rounded"
+          className="text-black border w-full mb-4 p-3 rounded"
 
           placeholder="Username"
 
@@ -70,7 +70,7 @@ export default function LoginPage() {
 
           type="password"
 
-          className="border w-full mb-6 p-3 rounded"
+          className="text-black border w-full mb-6 p-3 rounded"
 
           placeholder="Password"
 

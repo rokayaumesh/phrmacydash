@@ -123,41 +123,59 @@ const [history, setHistory] = useState<HistoryItem[]>([]);
 
     return(
 
-        <div className="flex justify-between items-center mb-8">
+        <div className="min-h-screen bg-white text-black font-sans">
 
-    <h1 className="text-4xl font-bold">
+            <div className="max-w-6xl mx-auto px-8 py-10">
 
-        Pharmacy Admin Dashboard
+                {/* Header */}
+                <div className="flex justify-between items-start border-b border-black pb-6 mb-10">
 
-    </h1>
+                    <div>
+                        <p className="text-xs uppercase tracking-[0.2em] text-black/60 mb-1">
+                            Internal Tools
+                        </p>
+                        <h1 className="text-3xl font-semibold tracking-tight text-black">
+                            Pharmacy Admin Dashboard
+                        </h1>
+                    </div>
 
-    <button
-        onClick={logout}
-        className="bg-red-600 text-white px-5 py-2 rounded-xl"
-    >
-        Logout
-    </button>
-    <div className="bg-green-100 border border-green-300 rounded-xl p-4 mb-6">
+                    <button
+                        onClick={logout}
+                        className="border border-black text-black px-5 py-2 text-sm uppercase tracking-wide hover:bg-black hover:text-white transition-colors"
+                    >
+                        Logout
+                    </button>
 
-    <b>Current Active Excel</b>
+                </div>
 
-    <br/>
+                {/* Active file status — styled like a label stamp */}
+                <div className="mb-10 border border-black p-5 flex items-center justify-between">
+                    <div>
+                        <p className="text-xs uppercase tracking-[0.2em] text-black/60 mb-1">
+                            Current Active Excel
+                        </p>
+                        <p className="text-lg font-mono">
+                            {active || "None"}
+                        </p>
+                    </div>
+                    <div className="text-xs uppercase tracking-[0.2em] border border-black px-3 py-1">
+                        {active ? "Live" : "Empty"}
+                    </div>
+                </div>
 
-    {active || "None"}
+                <div className="grid grid-cols-3 gap-10">
 
-</div>
+                    <div className="col-span-2 flex flex-col gap-10">
 
-                <div className="grid grid-cols-3 gap-8">
+                        {/* Upload card */}
+                        <div className="border border-black p-8">
 
-                    <div className="col-span-2">
-
-                        <div className="bg-white rounded-xl shadow p-8">
-
-                            <h2 className="text-2xl font-bold mb-6">
-
+                            <h2 className="text-xl font-semibold tracking-tight mb-1">
                                 Upload New Excel
-
                             </h2>
+                            <p className="text-sm text-black/60 mb-6">
+                                Replaces the active file used across the system.
+                            </p>
 
                             <input
 
@@ -175,6 +193,8 @@ const [history, setHistory] = useState<HistoryItem[]>([]);
 
                                 }}
 
+                                className="block w-full text-sm border border-black/40 p-3 file:mr-4 file:border-0 file:bg-black file:text-white file:px-4 file:py-2 file:uppercase file:text-xs file:tracking-wide"
+
                             />
 
                             <button
@@ -183,7 +203,7 @@ const [history, setHistory] = useState<HistoryItem[]>([]);
 
                                 disabled={loading}
 
-                                className="mt-6 bg-blue-700 text-white px-8 py-3 rounded-xl"
+                                className="mt-6 bg-black text-white px-8 py-3 text-sm uppercase tracking-wide disabled:opacity-40 hover:bg-black/80 transition-colors"
 
                             >
 
@@ -205,7 +225,12 @@ const [history, setHistory] = useState<HistoryItem[]>([]);
 
                         </div>
 
-                        <div className="mt-8">
+                        {/* History */}
+                        <div className="border border-black p-8">
+
+                            <h2 className="text-xl font-semibold tracking-tight mb-6">
+                                Upload History
+                            </h2>
 
                             <UploadHistory
 
@@ -219,12 +244,15 @@ const [history, setHistory] = useState<HistoryItem[]>([]);
 
                     </div>
 
-                    <QRCodeCard/>
+                    <div className="border border-black p-8">
+                        <QRCodeCard/>
+                    </div>
 
                 </div>
 
             </div>
 
+        </div>
 
     );
 
