@@ -17,7 +17,7 @@ export default function SearchBar({
         value={value}
         placeholder="🔍 Search medicine..."
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-xl border border-gray-300 px-5 py-3 text-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-half rounded-xl border border-gray-300 px-5 py-3 text-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
 
       {value && (

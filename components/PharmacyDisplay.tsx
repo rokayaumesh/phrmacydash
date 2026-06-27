@@ -87,40 +87,45 @@ export default function PharmacyDisplay() {
   }
 
   const visible = useMemo(() => {
-    let medicines = [...data];
+  let medicines = [...data];
 
-    if (search.trim()) {
-      medicines = medicines.filter((m) =>
-        `${m.generic_name}
-${m.list_price}
-${m.total_free_qty}
-${m.availability}`
-.toLowerCase()
-.includes(search.toLowerCase())
-      );
+  if (search.trim()) {
+    const q = search.toLowerCase().trim();
+
+    return medicines.filter((m) =>
+      [
+        m.generic_name,
+        m.list_price,
+        m.total_free_qty,
+        m.availability,
+      ]
+        .join(" ")
+        .toLowerCase()
+        .includes(q)
+    );
+  }
+
+  // Normal display (auto-rotating)
+  const slice = medicines.slice(index, index + 30);
+
+  const result: Medicine[] = [];
+  let out = 0;
+
+  for (const row of slice) {
+    const ok = available(row.availability);
+
+    if (!ok) {
+      if (out >= 1) continue;
+      out++;
     }
 
-    const slice = medicines.slice(index, index + 30);
+    result.push(row);
 
-    const result: Medicine[] = [];
+    if (result.length === 5) break;
+  }
 
-    let out = 0;
-
-    for (const row of slice) {
-      const ok = available(row.availability);
-
-      if (!ok) {
-        if (out >= 2) continue;
-        out++;
-      }
-
-      result.push(row);
-
-      if (result.length === 9) break;
-    }
-
-    return result;
-  }, [data, index, search]);
+  return result;
+}, [data, index, search]);
     return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 p-6">
 
@@ -167,7 +172,7 @@ ${m.availability}`
 
           </div>
 
-          <div className="mt-5">
+          <div className="text-black mt-5">
 
             <SearchBar
               value={search}
@@ -227,19 +232,19 @@ ${m.availability}`
                 }`}
               >
 
-                <div className="text-lg font-semibold">
+                <div className="text-black text-lg font-semibold">
 
                   {row.generic_name}
 
                 </div>
 
-                <div className="text-lg">
+                <div className="text-black text-lg">
 
                   {row.total_free_qty}
 
                 </div>
 
-                <div className="text-lg">
+                <div className="text-black text-lg">
 
                   Rs {row.list_price}
 
