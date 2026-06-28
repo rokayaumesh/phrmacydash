@@ -13,6 +13,46 @@ interface Medicine {
   availability: string;
 }
 
+function available(value: string) {
+  const v = value.toLowerCase();
+  return v.includes("yes") || v.includes("available");
+}
+
+/**
+ * Group rows by EXACT generic_name (trimmed).
+ * Within each group:
+ *  - if any row has total_free_qty > 0, keep only those rows (drop the zero-qty dupes)
+ *  - if none have qty > 0, keep a single representative row so it still shows as out of stock
+ * Rows with an empty generic_name are left alone (not merged together).
+ */
+function dedupeByGenericName(meds: Medicine[]): Medicine[] {
+  const groups = new Map<string, Medicine[]>();
+  let emptyIndex = 0;
+
+  for (const m of meds) {
+    const trimmed = (m.generic_name ?? "").trim();
+    const key = trimmed === "" ? `__empty_${emptyIndex++}` : trimmed;
+
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key)!.push(m);
+  }
+
+  const result: Medicine[] = [];
+
+  for (const rows of groups.values()) {
+    const withQty = rows.filter((r) => r.total_free_qty > 0);
+
+    if (withQty.length > 0) {
+      result.push(...withQty);
+    } else {
+      // none of the duplicates have quantity, keep one so it still appears as "Out of Stock"
+      result.push(rows[0]);
+    }
+  }
+
+  return result;
+}
+
 export default function PharmacyDisplay() {
   const [data, setData] = useState<Medicine[]>([]);
   const [index, setIndex] = useState(0);
@@ -43,12 +83,15 @@ export default function PharmacyDisplay() {
 
       const [, ...rows] = json as any[];
 
-      const medicines: Medicine[] = rows.map((r: any[]) => ({
+      let medicines: Medicine[] = rows.map((r: any[]) => ({
         generic_name: r?.[1] ?? "",
         list_price: Number(r?.[2] ?? 0),
         total_free_qty: Number(r?.[3] ?? 0),
         availability: r?.[4] ?? "",
       }));
+
+      // Dedupe exact generic_name duplicates, preferring rows that have quantity
+      medicines = dedupeByGenericName(medicines);
 
       medicines.sort(() => Math.random() - 0.5);
 
@@ -77,14 +120,13 @@ export default function PharmacyDisplay() {
     return () => clearInterval(rotate);
   }, [data]);
 
-  function available(value: string) {
-    const v = value.toLowerCase();
-
-    return (
-      v.includes("yes") ||
-      v.includes("available")
-    );
-  }
+  // Overall available / unavailable counts across the full (deduped) dataset
+  const stats = useMemo(() => {
+    const total = data.length;
+    const availableCount = data.filter((m) => available(m.availability)).length;
+    const unavailableCount = total - availableCount;
+    return { total, availableCount, unavailableCount };
+  }, [data]);
 
   const visible = useMemo(() => {
     let medicines = [...data];
@@ -189,10 +231,21 @@ export default function PharmacyDisplay() {
 
       </div>
 
-      <div className="mt-2 text-right text-xs sm:text-sm text-gray-500">
-
-        Last Updated : {lastUpdate}
-
+      <div className="mt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 text-xs sm:text-sm">
+        <div className="flex gap-3">
+          <span className="text-gray-600">
+            Total: <span className="font-semibold text-gray-800">{stats.total}</span>
+          </span>
+          <span className="text-green-700">
+            In Stock: <span className="font-semibold">{stats.availableCount}</span>
+          </span>
+          <span className="text-red-700">
+            Out of Stock: <span className="font-semibold">{stats.unavailableCount}</span>
+          </span>
+        </div>
+        <div className="text-right text-gray-500">
+          Last Updated : {lastUpdate}
+        </div>
       </div>
 
       <div className="grid grid-cols-4 gap-2 sm:gap-4 bg-blue-900 text-white rounded-xl mt-6 px-3 sm:px-6 py-3 sm:py-4 font-bold text-xs sm:text-base sticky top-0 z-20">
@@ -243,7 +296,7 @@ export default function PharmacyDisplay() {
 
                 <div className="text-black text-sm sm:text-lg">
 
-                  {row.total_free_qty}
+                  {Math.max(0, row.total_free_qty)}
 
                 </div>
 
