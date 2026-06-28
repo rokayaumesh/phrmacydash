@@ -62,7 +62,7 @@ export default function PharmacyDisplay() {
   useEffect(() => {
     loadExcel();
 
-    const refresh = setInterval(loadExcel,5000);
+    const refresh = setInterval(loadExcel, 5000);
 
     return () => clearInterval(refresh);
   }, []);
@@ -87,53 +87,54 @@ export default function PharmacyDisplay() {
   }
 
   const visible = useMemo(() => {
-  let medicines = [...data];
+    let medicines = [...data];
 
-  if (search.trim()) {
-    const q = search.toLowerCase().trim();
+    if (search.trim()) {
+      const q = search.toLowerCase().trim();
 
-    return medicines.filter((m) =>
-      [
-        m.generic_name,
-        m.list_price,
-        m.total_free_qty,
-        m.availability,
-      ]
-        .join(" ")
-        .toLowerCase()
-        .includes(q)
-    );
-  }
-
-  // Normal display (auto-rotating)
-  const slice = medicines.slice(index, index + 30);
-
-  const result: Medicine[] = [];
-  let out = 0;
-
-  for (const row of slice) {
-    const ok = available(row.availability);
-
-    if (!ok) {
-      if (out >= 1) continue;
-      out++;
+      return medicines.filter((m) =>
+        [
+          m.generic_name,
+          m.list_price,
+          m.total_free_qty,
+          m.availability,
+        ]
+          .join(" ")
+          .toLowerCase()
+          .includes(q)
+      );
     }
 
-    result.push(row);
+    // Normal display (auto-rotating)
+    const slice = medicines.slice(index, index + 30);
 
-    if (result.length === 5) break;
-  }
+    const result: Medicine[] = [];
+    let out = 0;
 
-  return result;
-}, [data, index, search]);
-    return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 p-6">
+    for (const row of slice) {
+      const ok = available(row.availability);
 
-      <div className="flex justify-between items-start gap-6">
+      if (!ok) {
+        if (out >= 1) continue;
+        out++;
+      }
 
-        <div className="flex-1">
+      result.push(row);
 
-          <div className="flex items-center gap-4 bg-white rounded-2xl border p-5 shadow">
+      if (result.length === 5) break;
+    }
+
+    return result;
+  }, [data, index, search]);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 p-3 sm:p-6">
+
+      <div className="flex flex-col md:flex-row justify-between items-start gap-4 md:gap-6">
+
+        <div className="flex-1 w-full">
+
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 bg-white rounded-2xl border p-3 sm:p-5 shadow">
 
             <Image
               src="/logogp.png"
@@ -141,26 +142,27 @@ export default function PharmacyDisplay() {
               width={80}
               height={80}
               priority
+              className="w-14 h-14 sm:w-20 sm:h-20"
             />
 
             <div className="flex-1 text-center">
 
-              <h1 className="text-4xl font-bold text-blue-900">
+              <h1 className="text-xl sm:text-2xl md:text-4xl font-bold text-blue-900 leading-tight">
 
                 जी.पी. कोइराला राष्ट्रिय श्वासप्रश्वास उपचार केन्द्र
 
               </h1>
 
-              <p className="text-gray-600 mt-2">
+              <p className="text-gray-600 mt-2 text-xs sm:text-sm md:text-base">
 
                 दुलेगौँडा, तनहुँ | फोन: ०६५–५७१४५५ | Website:
                 gprespiratory.org
 
               </p>
 
-              <div className="mt-4">
+              <div className="mt-3 sm:mt-4">
 
-                <span className="bg-blue-100 text-blue-900 px-6 py-2 rounded-full font-semibold">
+                <span className="bg-blue-100 text-blue-900 px-4 sm:px-6 py-1.5 sm:py-2 rounded-full font-semibold text-sm sm:text-base">
 
                   फार्मेसीमा उपलब्ध औषधिहरू
 
@@ -187,12 +189,13 @@ export default function PharmacyDisplay() {
 
       </div>
 
-      <div className="mt-2 text-right text-sm text-gray-500">
+      <div className="mt-2 text-right text-xs sm:text-sm text-gray-500">
 
         Last Updated : {lastUpdate}
 
       </div>
-            <div className="grid grid-cols-4 gap-4 bg-blue-900 text-white rounded-xl mt-6 px-6 py-4 font-bold sticky top-0 z-20">
+
+      <div className="grid grid-cols-4 gap-2 sm:gap-4 bg-blue-900 text-white rounded-xl mt-6 px-3 sm:px-6 py-3 sm:py-4 font-bold text-xs sm:text-base sticky top-0 z-20">
 
         <div>Medicine</div>
 
@@ -204,11 +207,11 @@ export default function PharmacyDisplay() {
 
       </div>
 
-      <div className="space-y-4 mt-4">
+      <div className="space-y-3 sm:space-y-4 mt-4">
 
         {visible.length === 0 ? (
 
-          <div className="bg-white rounded-xl shadow p-10 text-center text-gray-500">
+          <div className="bg-white rounded-xl shadow p-6 sm:p-10 text-center text-gray-500">
 
             No medicines found.
 
@@ -224,7 +227,7 @@ export default function PharmacyDisplay() {
 
               <div
                 key={i}
-                className={`grid grid-cols-4 gap-4 items-center rounded-2xl shadow border px-6 py-5 transition-all duration-300
+                className={`grid grid-cols-4 gap-2 sm:gap-4 items-center rounded-2xl shadow border px-3 sm:px-6 py-3 sm:py-5 transition-all duration-300
                 ${
                   ok
                     ? "bg-white border-gray-200"
@@ -232,19 +235,19 @@ export default function PharmacyDisplay() {
                 }`}
               >
 
-                <div className="text-black text-lg font-semibold">
+                <div className="text-black text-sm sm:text-lg font-semibold break-words">
 
                   {row.generic_name}
 
                 </div>
 
-                <div className="text-black text-lg">
+                <div className="text-black text-sm sm:text-lg">
 
                   {row.total_free_qty}
 
                 </div>
 
-                <div className="text-black text-lg">
+                <div className="text-black text-sm sm:text-lg">
 
                   Rs {row.list_price}
 
@@ -254,7 +257,7 @@ export default function PharmacyDisplay() {
 
                   {ok ? (
 
-                    <span className="bg-green-600 text-white px-4 py-2 rounded-full">
+                    <span className="bg-green-600 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-base whitespace-nowrap">
 
                       In Stock
 
@@ -262,7 +265,7 @@ export default function PharmacyDisplay() {
 
                   ) : (
 
-                    <span className="bg-red-600 text-white px-4 py-2 rounded-full">
+                    <span className="bg-red-600 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-base whitespace-nowrap">
 
                       Out of Stock
 
@@ -282,7 +285,7 @@ export default function PharmacyDisplay() {
 
       </div>
 
-      <div className="mt-10 text-center text-gray-600 font-medium">
+      <div className="mt-10 text-center text-gray-600 font-medium text-sm sm:text-base px-2">
 
         💡 Please ask pharmacy staff for unavailable medicines or alternatives.
 
