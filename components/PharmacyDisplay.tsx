@@ -163,7 +163,7 @@ export default function PharmacyDisplay() {
 
       result.push(row);
 
-      if (result.length === 5) break;
+      if (result.length === 8) break;
     }
 
     return result;
