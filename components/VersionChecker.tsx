@@ -8,7 +8,7 @@ export default function VersionChecker() {
 
     async function checkVersion() {
       try {
-        const res = await fetch(`/version.json?t=${Date.now()}`, {
+        const res = await fetch(`/api/version?t=${Date.now()}`, {
           cache: "no-store",
         });
 
@@ -29,7 +29,7 @@ export default function VersionChecker() {
 
     checkVersion();
 
-    const interval = setInterval(checkVersion, 60 * 1000); // every minute
+    const interval = setInterval(checkVersion, 60 * 1000); // Check every minute
 
     return () => clearInterval(interval);
   }, []);
