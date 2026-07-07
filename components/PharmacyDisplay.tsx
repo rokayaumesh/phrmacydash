@@ -191,14 +191,14 @@ export default function PharmacyDisplay() {
 
               <h1 className="text-xl sm:text-2xl md:text-4xl font-bold text-blue-900 leading-tight">
 
-                जी.पी. कोइराला राष्ट्रिय श्वासप्रश्वास उपचार केन्द्र
+                कर्णाली स्वास्थ्य बिज्ञान प्रतिष्ठान 
 
               </h1>
 
               <p className="text-gray-600 mt-2 text-xs sm:text-sm md:text-base">
 
-                दुलेगौँडा, तनहुँ | फोन: ०६५–५७१४५५ | Website:
-                gprespiratory.org
+                चन्दननाथ - ०४, जुम्ला | फोन: ०८७-५२०३५५ | Website:
+                kahs.edu.np
 
               </p>
 
@@ -206,7 +206,7 @@ export default function PharmacyDisplay() {
 
                 <span className="bg-blue-100 text-blue-900 px-4 sm:px-6 py-1.5 sm:py-2 rounded-full font-semibold text-sm sm:text-base">
 
-                  फार्मेसीमा उपलब्ध औषधिहरू
+                  फार्मेसीमा उपलब्ध औषधिहरू को सूचीहरु
 
                 </span>
 

@@ -16,7 +16,7 @@ export default function QRCodeCard() {
     <div className="bg-white p-4 rounded-xl">
       <h2>QR Code</h2>
 
-      <QRCode value="https://qrpharmacy.vercel.app/" size={180} />
+      <QRCode value="your url" size={180} />
     </div>
   );
 }
