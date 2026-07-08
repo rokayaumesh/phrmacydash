@@ -1,0 +1,19 @@
+suru ma run ->npm run dev
+go to localhost:3000/admin/login
+use these credentials ADMIN_USERNAME=karnaliadmin
+ADMIN_PASSWORD=Karnaliadmin123
+
+export excel file from gp sql query data sudish dai added 
+
+upload in that admin dashboard
+
+it automatically updates
+
+then git add .
+and git commit -m "changes for pharmacy"
+
+
+git push origin main
+
+and use this vercel --prod 
+the dashboard updates
