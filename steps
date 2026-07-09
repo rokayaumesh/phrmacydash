@@ -10,7 +10,7 @@ upload in that admin dashboard
 it automatically updates
 
 then git add .
-and git commit -m "changes for pharmacy"
+and git commit -m "uploaded karnali data"   
 
 
 git push origin main
